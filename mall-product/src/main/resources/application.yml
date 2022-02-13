@@ -1,0 +1,32 @@
+# 数据库的连接新
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://192.168.56.100:3306/mall-pms
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.56.100:8848
+    alicloud:
+      access-key: LTAI5tBPqoroToQNyrHpYJLR
+      secret-key: 3GnWaRhcBW3gUDhNSVr23fSrM6A0Q4
+      oss:
+        endpoint: oss-cn-guangzhou.aliyuncs.com
+  application:
+    name: mall-product
+  # 统一的全局的--设置服务器响应给客户端的日期时间格式
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto # 主键自增
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+
+server:
+  port: 8040

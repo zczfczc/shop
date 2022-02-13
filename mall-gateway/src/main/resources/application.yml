@@ -1,0 +1,48 @@
+# 注册中心的信息
+spring:
+  application:
+    name: mall-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.56.100:8848
+    gateway:
+      routes:
+        - id: product_route
+          uri: lb://mall-product
+          predicates:
+            - Path=/app/product/**
+          filters:
+            - RewritePath=/app/(?<segment>/?.*), /$\{segment}
+        - id: third_route
+          uri: lb://mall-third
+          predicates:
+            - Path=/app/third/**
+          filters:
+            - RewritePath=/app/third/(?<segment>/?.*), /$\{segment}
+        - id: memeber_route
+          uri: lb://mall-memeber
+          predicates:
+            - Path=/app/member/**
+          filters:
+            - RewritePath=/app/(?<segment>/?.*), /$\{segment}
+        - id: ware_route
+          uri: lb://mall-ware
+          predicates:
+            - Path=/app/ware/**
+          filters:
+            - RewritePath=/app/(?<segment>/?.*), /$\{segment}
+        - id: app_route
+          uri: lb://renren-fast
+          predicates:
+            - Path=/app/**
+          filters:
+            - RewritePath=/app/(?<segment>/?.*), /renren-fast/$\{segment}
+
+# localhost:8070/app/captcha.jpg -->
+# localhost:8080/app/captcha.jpg localhost:8080/renren-fast/captcha.jpg
+# 指定注册中心的服务端口
+server:
+  port: 8070
+
+

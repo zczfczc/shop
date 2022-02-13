@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.4.RELEASE</version>
+		<version>2.4.12</version>
 	</parent>
 
 	<properties>
@@ -51,6 +51,11 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.msb.mall</groupId>
+			<artifactId>mall-commons</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -97,6 +102,11 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+			<version>2.4.12</version>
 		</dependency>
 		 <!--oracle驱动
 		<dependency>
