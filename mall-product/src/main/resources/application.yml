@@ -19,7 +19,8 @@ spring:
   # 统一的全局的--设置服务器响应给客户端的日期时间格式
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
-
+  thymeleaf:
+    cache: false # 关闭Thymeleaf的缓存
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
   global-config:
@@ -30,3 +31,11 @@ mybatis-plus:
 
 server:
   port: 8040
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

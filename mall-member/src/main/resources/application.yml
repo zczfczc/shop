@@ -19,3 +19,4 @@ mybatis-plus:
       id-type: auto # 主键自增
 server:
   port: 8020
+
