@@ -5,6 +5,9 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * 商品上架的时候需要保存到ES中的信息
+ */
 @Data
 public class SkuESModel {
     private Long skuId;

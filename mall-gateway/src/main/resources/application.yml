@@ -42,7 +42,10 @@ spring:
           uri: lb://mall-product
           predicates:
             - Host=msb.mall.com
-
+        - id: msbmall_host_route
+          uri: lb://mall-search
+          predicates:
+            - Host=msb.search.com
 
 # localhost:8070/app/captcha.jpg -->
 # localhost:8080/app/captcha.jpg localhost:8080/renren-fast/captcha.jpg

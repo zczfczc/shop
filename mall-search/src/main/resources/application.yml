@@ -9,5 +9,8 @@ spring:
   # 统一的全局的--设置服务器响应给客户端的日期时间格式
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
+  thymeleaf:
+    cache: false
 server:
   port: 8090
+
