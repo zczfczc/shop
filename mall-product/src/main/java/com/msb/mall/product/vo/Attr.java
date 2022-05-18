@@ -4,6 +4,7 @@
 package com.msb.mall.product.vo;
 
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * Auto-generated: 2022-01-18 14:49:13
@@ -11,6 +12,7 @@ import lombok.Data;
  * @author json.cn (i@json.cn)
  * @website http://www.json.cn/java2pojo/
  */
+@ToString
 @Data
 public class Attr {
 

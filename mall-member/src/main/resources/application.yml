@@ -18,5 +18,5 @@ mybatis-plus:
     db-config:
       id-type: auto # 主键自增
 server:
-  port: 8020
+  port: 20300
 

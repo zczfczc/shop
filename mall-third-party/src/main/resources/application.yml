@@ -5,12 +5,18 @@ spring:
       discovery:
         server-addr: 192.168.56.100:8848
     alicloud:
-      access-key: LTAI5tBPqoroToQNyrHpYJLR
-      secret-key: 3GnWaRhcBW3gUDhNSVr23fSrM6A0Q4
+      access-key: 1LTAI5tBPqoroToQNyrHpYJLR1
+      secret-key: 13GnWaRhcBW3gUDhNSVr23fSrM6A0Q41
       oss:
         endpoint: oss-cn-guangzhou.aliyuncs.com
         bucket: mashibing-mall
+      sms:
+        host: https://dfsns.market.alicloudapi.com
+        path: /data/send_sms
+        method: POST
+        appCode: 192a6811b5a4458f9402da3b0c3b9aa5
     application:
       name: mall-third
 server:
   port: 8100
+

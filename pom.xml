@@ -22,5 +22,7 @@
         <module>mall-gateway</module>
         <module>mall-third-party</module>
         <module>mall-search</module>
+        <module>mall-auth_server</module>
+        <module>mall-cart</module>
     </modules>
 </project>

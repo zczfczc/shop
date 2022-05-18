@@ -35,5 +35,7 @@ public class ThreadPoolDemo {
         poolExecutor.execute(()->{
             System.out.println("----->" + Thread.currentThread().getName());
         });
+
+
     }
 }

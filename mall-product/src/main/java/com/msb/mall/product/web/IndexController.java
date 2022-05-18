@@ -31,7 +31,7 @@ public class IndexController {
     @Autowired
     StringRedisTemplate stringRedisTemplate;
 
-    @GetMapping({"/","/index.html","/home","/home.html"})
+    @GetMapping({"/","/home","/index"})
     public String index(Model model){
 
         // 查询出所有的一级分类的信息

@@ -1,7 +1,11 @@
 package com.msb.mall.product;
 
 
+import com.msb.mall.product.service.AttrGroupService;
 import com.msb.mall.product.service.CategoryService;
+import com.msb.mall.product.service.SkuSaleAttrValueService;
+import com.msb.mall.product.vo.SkuItemSaleAttrVo;
+import com.msb.mall.product.vo.SpuItemGroupAttrVo;
 import org.junit.jupiter.api.Test;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +16,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -26,6 +31,12 @@ public class MallProductApplicationTests {
 
     @Autowired
     RedissonClient redissonClient;
+
+    @Autowired
+    AttrGroupService attrGroupService;
+
+    @Autowired
+    SkuSaleAttrValueService skuSaleAttrValueService;
 
 
     @Test
@@ -48,6 +59,22 @@ public class MallProductApplicationTests {
         Long[] catelogPath = categoryService.findCatelogPath(762l);
         for (Long aLong : catelogPath) {
             System.out.println(aLong);
+        }
+    }
+
+    @Test
+    public void test2(){
+        List<SpuItemGroupAttrVo> attrgroupWithSpuId = attrGroupService.getAttrgroupWithSpuId(6l, 225l);
+        for (SpuItemGroupAttrVo spuItemGroupAttrVo : attrgroupWithSpuId) {
+            System.out.println(spuItemGroupAttrVo);
+        }
+    }
+
+    @Test
+    public void test3(){
+        List<SkuItemSaleAttrVo> skuSaleAttrValueBySpuId = skuSaleAttrValueService.getSkuSaleAttrValueBySpuId(6l);
+        for (SkuItemSaleAttrVo skuItemSaleAttrVo : skuSaleAttrValueBySpuId) {
+            System.out.println(skuItemSaleAttrVo);
         }
     }
 
