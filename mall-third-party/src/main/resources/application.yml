@@ -5,8 +5,8 @@ spring:
       discovery:
         server-addr: 192.168.56.100:8848
     alicloud:
-      access-key: 1LTAI5tBPqoroToQNyrHpYJLR1
-      secret-key: 13GnWaRhcBW3gUDhNSVr23fSrM6A0Q41
+      access-key: LTAI5tBPqoroToQNyrHpYJLR
+      secret-key: 3GnWaRhcBW3gUDhNSVr23fSrM6A0Q4
       oss:
         endpoint: oss-cn-guangzhou.aliyuncs.com
         bucket: mashibing-mall

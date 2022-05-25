@@ -11,7 +11,11 @@ import java.util.concurrent.ExecutionException;
  */
 public interface ICartService {
 
-    public List<Cart> getCartList();
+    public Cart getCartList();
 
     CartItem addCart(Long skuId, Integer num) throws ExecutionException, InterruptedException, Exception;
+
+    CartItem getCartItem(Long skuId);
+
+    List<CartItem> getUserCartItems();
 }
