@@ -55,6 +55,13 @@ public class MemberReceiveAddressController {
         return R.ok().put("memberReceiveAddress", memberReceiveAddress);
     }
 
+    @RequestMapping("/getAddressById/{id}")
+    //@RequiresPermissions("member:memberreceiveaddress:info")
+    public MemberReceiveAddressEntity getAddressById(@PathVariable("id") Long id){
+        MemberReceiveAddressEntity memberReceiveAddress = memberReceiveAddressService.getById(id);
+        return memberReceiveAddress;
+    }
+
     /**
      * 保存
      */

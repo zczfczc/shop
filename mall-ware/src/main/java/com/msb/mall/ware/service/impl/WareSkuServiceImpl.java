@@ -3,6 +3,10 @@ package com.msb.mall.ware.service.impl;
 import com.msb.common.dto.SkuHasStockDto;
 import com.msb.common.utils.R;
 import com.msb.mall.ware.feign.ProductFeignService;
+import com.msb.mall.ware.vo.LockStockResult;
+import com.msb.mall.ware.vo.OrderItemVo;
+import com.msb.mall.ware.vo.WareSkuLockVO;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -104,6 +108,33 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             return dto;
         }).collect(Collectors.toList());
         return list;
+    }
+
+    /**
+     * 锁定库存的操作
+     * @param vo
+     * @return
+     */
+    @Override
+    public List<LockStockResult> orderLockStock(WareSkuLockVO vo) {
+        List<OrderItemVo> items = vo.getItems();
+        // 首先找到具有库存的仓库
+        List<SkuWareHasStock> collect = items.stream().map(item -> {
+            SkuWareHasStock skuWareHasStock = new SkuWareHasStock();
+            skuWareHasStock.setSkuId(item.getSkuId());
+            List<Long> wareIds = this.baseMapper.listHashStock(item.getSkuId());
+            skuWareHasStock.setWareIds(wareIds);
+            return skuWareHasStock;
+        }).collect(Collectors.toList());
+        // 尝试锁定库存
+        return null;
+    }
+
+    @Data
+    class SkuWareHasStock{
+        private Long skuId;
+        private Integer num;
+        private List<Long> wareIds;
     }
 
 }

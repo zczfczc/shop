@@ -25,6 +25,9 @@ public class OrderConfirmVo {
 
     //Integer countNum;
 
+    @Getter @Setter
+    private String orderToken;
+
     public Integer getCountNum(){
         int count = 0;
         if(items != null){

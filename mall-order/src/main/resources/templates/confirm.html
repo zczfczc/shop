@@ -735,7 +735,11 @@
 				<p class="yfze_a"><span class="z">应付总额：</span><span class="hq">￥[[${confirmVo.getPayTotal()}]]</span></p>
 				<p class="yfze_b">寄送至： 北京 朝阳区 三环到四环之间 朝阳北路复兴国际大厦23层麦田房产 IT-中心研发二部 收货人：赵存权 188****5052</p>
 			</div>
-			<button class="tijiao">提交订单</button>
+			<form action="http://order.msb.com/orderSubmit" method="post" >
+				<input type="hidden" name="addrId" th:value="${confirmVo.address[0].getId()}">
+				<input type="hidden" name="orderToken" th:value="${confirmVo.orderToken}">
+				<button class="tijiao">提交订单</button>
+			</form>
 		</div>
 		</div>
 

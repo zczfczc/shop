@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.msb.common.dto.SkuHasStockDto;
+import com.msb.mall.ware.vo.LockStockResult;
+import com.msb.mall.ware.vo.WareSkuLockVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +29,13 @@ import com.msb.common.utils.R;
 public class WareSkuController {
     @Autowired
     private WareSkuService wareSkuService;
+
+
+    @GetMapping("/lock/order")
+    public List<LockStockResult> orderLockStock(@RequestBody WareSkuLockVO vo){
+        List<LockStockResult> results = wareSkuService.orderLockStock(vo);
+        return results;
+    }
 
     /**
      * 查询对应的skuId是否有库存

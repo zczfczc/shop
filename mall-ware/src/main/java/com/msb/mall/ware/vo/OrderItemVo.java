@@ -1,4 +1,4 @@
-package com.msb.mall.order.vo;
+package com.msb.mall.ware.vo;
 
 import lombok.Data;
 
