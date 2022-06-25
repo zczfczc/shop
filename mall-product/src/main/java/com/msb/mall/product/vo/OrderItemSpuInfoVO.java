@@ -4,6 +4,7 @@
 package com.msb.mall.product.vo;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  * @website http://www.json.cn/java2pojo/
  */
 @Data
-public class OrderItemSpuInfoVO {
+public class OrderItemSpuInfoVO implements Serializable {
     private Long id;
     private String spuName;
     private String spuDescription;

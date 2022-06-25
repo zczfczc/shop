@@ -15,6 +15,7 @@ public enum BizCodeEnume {
     VALID_EXCEPTION(10001,"参数格式异常"),
     VALID_SMS_EXCEPTION(10002,"短信发送频率太高，稍等一会发送!"),
     PRODUCT_UP_EXCEPTION(11001,"商城上架异常"),
+    NO_STOCK_EXCEPTION(14001,"商品锁定库存失败"),
     USERNAME_EXSIT_EXCEPTION(15001,"用户名存在"),
     PHONE_EXSIT_EXCEPTION(15002,"手机号存在"),
     USERNAME_PHONE_VALID_EXCEPTION(15003,"账号或者密码错误");

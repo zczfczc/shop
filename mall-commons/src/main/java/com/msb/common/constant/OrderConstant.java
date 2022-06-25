@@ -5,6 +5,8 @@ package com.msb.common.constant;
  */
 public class OrderConstant {
     public static final String ORDER_TOKEN_PREFIX = "order:token";
+
+    public static final String ROCKETMQ_ORDER_TOPIC = "ORDER-TOPIC";
     // 订单状态【0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单】
     public enum OrderStateEnum{
         FOR_THE_PAYMENT(0,"待付款"),

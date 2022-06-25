@@ -48,6 +48,12 @@
         <result property="commentTime" column="comment_time"/>
         <result property="modifyTime" column="modify_time"/>
     </resultMap>
+    <update id="updateOrderStatus">
+        UPDATE  `oms_order` SET STATUS=#{status} WHERE order_sn = #{orderSn}
+    </update>
+    <select id="getOrderByOrderSn" resultType="com.msb.mall.order.entity.OrderEntity">
+        SELECT * FROM oms_order WHERE order_sn = #{orderSn}
+    </select>
 
 
 </mapper>

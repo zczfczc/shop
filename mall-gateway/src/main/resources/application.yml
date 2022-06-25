@@ -14,6 +14,12 @@ spring:
             - Path=/app/product/**,/hello
           filters:
             - RewritePath=/app/(?<segment>/?.*), /$\{segment}
+        - id: coupon_route
+          uri: lb://mall-coupon
+          predicates:
+            - Path=/app/coupon/**
+          filters:
+            - RewritePath=/app/(?<segment>/?.*), /$\{segment}
         - id: third_route
           uri: lb://mall-third
           predicates:

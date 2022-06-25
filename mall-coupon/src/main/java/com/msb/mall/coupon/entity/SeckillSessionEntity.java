@@ -1,10 +1,13 @@
 package com.msb.mall.coupon.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -44,5 +47,9 @@ public class SeckillSessionEntity implements Serializable {
 	 * 创建时间
 	 */
 	private Date createTime;
+
+	// 每日秒杀活动对应的SKU信息  @TableField(exist = false) 修改该字段不是表结构中的
+	@TableField(exist = false)
+	private List<SeckillSkuRelationEntity> relationEntities;
 
 }

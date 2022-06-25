@@ -41,6 +41,7 @@ public class SpuInfoController {
         spuInfoService.up(spuId);
         return R.ok();
     }
+     // /product/spuinfo/getOrderItemSpuInfoBySpuId/{spuIds}
     @RequestMapping("/getOrderItemSpuInfoBySpuId/{spuIds}")
     public List<OrderItemSpuInfoVO> getOrderItemSpuInfoBySpuId(@PathVariable("spuIds") Long[] spuIds){
         return spuInfoService.getOrderItemSpuInfoBySpuId(spuIds);

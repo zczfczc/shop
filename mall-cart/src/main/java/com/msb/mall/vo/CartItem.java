@@ -88,4 +88,11 @@ public class CartItem {
         return price.multiply(new BigDecimal(count));
     }
 
+    public Long getSpuId() {
+        return spuId;
+    }
+
+    public void setSpuId(Long spuId) {
+        this.spuId = spuId;
+    }
 }

@@ -2,8 +2,10 @@ package com.msb.mall.order.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class OrderItemSpuInfoVO {
+public class OrderItemSpuInfoVO implements Serializable {
     private Long id;
     private String spuName;
     private String spuDescription;
