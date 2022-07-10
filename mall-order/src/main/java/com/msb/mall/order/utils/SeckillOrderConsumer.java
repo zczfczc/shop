@@ -9,14 +9,15 @@ import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@RocketMQMessageListener(topic = OrderConstant.ROCKETMQ_ORDER_TOPIC,consumerGroup = "${rocketmq.consumer.group}")
+@RocketMQMessageListener(topic = OrderConstant.ROCKETMQ_SECKILL_ORDER_TOPIC,consumerGroup = "test")
 @Component
-public class OrderMsgConsumer implements RocketMQListener<String> {
-
-
+public class SeckillOrderConsumer implements RocketMQListener<String> {
+    @Autowired
+    OrderService orderService;
     @Override
     public void onMessage(String s) {
         // 订单关单的逻辑实现
-
+        SeckillOrderDto orderDto = JSON.parseObject(s,SeckillOrderDto.class);
+        orderService.quickCreateOrder(orderDto);
     }
 }

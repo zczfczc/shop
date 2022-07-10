@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,8 @@ public class SeckillSessionController {
     @GetMapping("/getLates3DaysSession")
     public R getLates3DaysSession(){
         List<SeckillSessionEntity> lates3DaysSession = seckillSessionService.getLates3DaysSession();
-        return R.ok().put("data",lates3DaysSession);
+        String json = JSON.toJSONString(lates3DaysSession);
+        return R.ok().put("data",json);
     }
 
     /**

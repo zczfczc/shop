@@ -508,8 +508,14 @@
                             <span>￥</span>
                             <span th:text="${#numbers.formatDecimal(item.info.price,3,2)}">4499.00</span>
                         </li>
-                        <li>
-                            预约享资格
+                        <li style="color: red">
+                            <span th:if="${#dates.createNow().getTime() < item.seckillVO.startTime}">
+                                商品将在：[[${#dates.format(new java.util.Date(item.seckillVO.startTime),'yyyy-MM-dd HH:mm:ss')}]] 开始秒杀
+                            </span>
+                            <span th:if="${#dates.createNow().getTime() > item.seckillVO.startTime
+                             && #dates.createNow().getTime() < item.seckillVO.endTime }">
+                                秒杀价: [[${#numbers.formatDecimal(item.seckillVO.seckillPrice,1,2)}]]
+                            </span>
                         </li>
                         <li>
                             <a href="/static/item/">
@@ -632,9 +638,16 @@
 
                         </div>
                     </div>
-                    <div class="box-btns-two">
+                    <div class="box-btns-two" th:if="${#dates.createNow().getTime() < item.seckillVO.startTime
+                            || #dates.createNow().getTime() >  item.seckillVO.endTime }">
                         <a href="#" id="addCart" th:attr="skuId=${item.info.skuId}">
                             加入购物车
+                        </a>
+                    </div>
+                    <div class="box-btns-two" th:if="${#dates.createNow().getTime() > item.seckillVO.startTime
+                             && #dates.createNow().getTime() < item.seckillVO.endTime }">
+                        <a href="#" id="seckillId" th:attr="skuId=${item.info.skuId},sessionId=${item.seckillVO.promotionSessionId},code=${item.seckillVO.randCode}">
+                            抢购商品
                         </a>
                     </div>
                     <div class="box-btns-three">
@@ -1256,6 +1269,23 @@
         var num = $("#numInput").val();
         var skuId = $(this).attr("skuId");
         location.href="http://cart.msb.com/addCart?skuId="+skuId+"&num="+num;
+    });
+
+    $("#seckillId").click(function(){
+        var isLogin = [[${session.loginUser !=null}]]
+        if(isLogin){
+            // 1. 获取活动编号和SkuId 2_10
+            var killId = $(this).attr("sessionId") + "_" + $(this).attr("skuId");
+            // 2. 获取对应的随机码
+            var code = $(this).attr("code");
+            // 3. 获取秒杀的商品数量
+            var num = $("#numInput").val();
+            location.href="http://seckill.msb.com/seckill/kill?killId="+killId + "&code="+code+"&num="+num;
+        }else{
+            alert("请先登录才能参加秒杀活动!!!");
+        }
+
+        return false;
     });
 </script>
 

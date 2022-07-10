@@ -1,8 +1,12 @@
 package com.msb.mall.product.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.msb.common.utils.R;
 import com.msb.mall.product.entity.SkuImagesEntity;
 import com.msb.mall.product.entity.SpuInfoDescEntity;
+import com.msb.mall.product.fegin.SeckillFeignService;
 import com.msb.mall.product.service.*;
+import com.msb.mall.product.vo.SeckillVO;
 import com.msb.mall.product.vo.SkuItemSaleAttrVo;
 import com.msb.mall.product.vo.SpuItemGroupAttrVo;
 import com.msb.mall.product.vo.SpuItemVO;
@@ -10,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -47,6 +52,9 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
 
     @Autowired
     ThreadPoolExecutor threadPoolExecutor;
+
+    @Autowired
+    SeckillFeignService seckillFeignService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -151,6 +159,7 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
             vo.setDesc(spuInfoDescEntity);
         }, threadPoolExecutor);
 
+
         CompletableFuture<Void> groupFuture = skuInfoFuture.thenAcceptAsync((res) -> {
             // 5.获取SPU的规格参数
             List<SpuItemGroupAttrVo> groupAttrVo = attrGroupService
@@ -164,8 +173,15 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
             vo.setImages(images);
         }, threadPoolExecutor);
 
+        CompletableFuture<Void> seckillFuture = CompletableFuture.runAsync(() -> {
+            // 查询商品的秒杀活动
+            R r = seckillFeignService.getSeckillSessionBySkuId(skuId);
+            SeckillVO seckillVO = JSON.parseObject(r.get("data").toString(),SeckillVO.class);
+            vo.setSeckillVO(seckillVO);
+        }, threadPoolExecutor);
 
-        CompletableFuture.allOf(saleFuture,spuFuture,imageFuture,groupFuture).get();
+
+        CompletableFuture.allOf(saleFuture,spuFuture,imageFuture,groupFuture,seckillFuture).get();
         return vo;
     }
 

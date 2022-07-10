@@ -2,6 +2,7 @@ package com.msb.mall.order.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.msb.common.constant.OrderConstant;
+import com.msb.common.dto.SeckillOrderDto;
 import com.msb.common.exception.NoStockExecption;
 import com.msb.common.utils.R;
 import com.msb.common.vo.MemberVO;
@@ -216,6 +217,30 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         // 3.购物车中的已经支付的商品移除
 
         // 4.更新会员积分 ....
+    }
+
+    /**
+     * 快速完成订单的处理  秒杀活动
+     * @param orderDto
+     */
+    @Transactional
+    @Override
+    public void quickCreateOrder(SeckillOrderDto orderDto) {
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setOrderSn(orderDto.getOrderSN());
+        orderEntity.setStatus(OrderConstant.OrderStateEnum.FOR_THE_PAYMENT.getCode());
+        orderEntity.setMemberId(orderDto.getMemberId());
+        orderEntity.setTotalAmount(orderDto.getSeckillPrice().multiply(new BigDecimal(orderDto.getNum())));
+        this.save(orderEntity);
+        OrderItemEntity itemEntity = new OrderItemEntity();
+        // TODO 根据SKUID查询对应的SKU信息和SPU信息
+        itemEntity.setOrderSn(orderDto.getOrderSN());
+        itemEntity.setSkuPrice(orderDto.getSeckillPrice());
+        itemEntity.setSkuId(orderDto.getSkuId());
+        itemEntity.setRealAmount(orderDto.getSeckillPrice().multiply(new BigDecimal(orderDto.getNum())));
+        itemEntity.setSkuQuantity(orderDto.getNum());
+
+        orderItemService.save(itemEntity);
     }
 
     /**

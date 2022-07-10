@@ -4,6 +4,11 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.56.100:8848
+    sentinel:
+      transport:
+        port: 8719
+        dashboard: localhost:8080
+        clientIp: 127.0.0.1
   application:
     name: mall-seckill
   redis:
@@ -14,9 +19,27 @@ spring:
       pool:
         core-size: 5
         max-size: 20
+  session:
+    store-type: redis
+    redis:
+      namespace: spring:redis
+  thymeleaf:
+    cache: false
 
 server:
   port: 9600
 
+# RocketMQ的相关信息
+rocketmq:
+  name-server: 192.168.56.100:9876
+  producer:
+    group: seckill-order-producer
+  consumer:
+    group: seckill-order-consumer
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
 
 

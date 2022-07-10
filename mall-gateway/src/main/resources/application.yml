@@ -52,6 +52,10 @@ spring:
           uri: lb://mall-product
           predicates:
             - Host=item.msb.com
+        - id: msbmall_seckill_route2
+          uri: lb://mall-seckill
+          predicates:
+            - Host=seckill.msb.com
         - id: msbmall_host_route3
           uri: lb://mall-search
           predicates:

@@ -1,6 +1,7 @@
 package com.msb.mall.order.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.msb.common.dto.SeckillOrderDto;
 import com.msb.common.exception.NoStockExecption;
 import com.msb.common.utils.PageUtils;
 import com.msb.mall.order.entity.OrderEntity;
@@ -37,5 +38,7 @@ public interface OrderService extends IService<OrderEntity> {
     void updateOrderStatus(String orderSn,Integer status);
 
     void handleOrderComplete(String orderSn);
+
+    void quickCreateOrder(SeckillOrderDto orderDto);
 }
 

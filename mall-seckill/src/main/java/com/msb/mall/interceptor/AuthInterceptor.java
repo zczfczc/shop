@@ -1,4 +1,4 @@
-package com.msb.mall.order.interceptor;
+package com.msb.mall.interceptor;
 
 import com.msb.common.constant.AuthConstant;
 import com.msb.common.vo.MemberVO;
@@ -9,19 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * 秒杀活动的拦截器 确认是杂登录的状态下操作的
+ */
 public class AuthInterceptor implements HandlerInterceptor {
 
     public static ThreadLocal threadLocal = new ThreadLocal();
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        // 支付宝的回调我们放过
-        String requestURI = request.getRequestURI();
 
-        boolean match = new AntPathMatcher().match("/orderPay/**", requestURI);
-        if(match){
-            return true;
-        }
         // 通过HttpSession获取当前登录的用户信息
         HttpSession session = request.getSession();
         Object attribute = session.getAttribute(AuthConstant.AUTH_SESSION_REDIS);

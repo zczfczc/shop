@@ -61,7 +61,7 @@ public class SeckillSessionServiceImpl extends ServiceImpl<SeckillSessionDao, Se
 
     private String startTime(){
         LocalDate now = LocalDate.now();
-        LocalDate startDay = now.plusDays(1);
+        LocalDate startDay = now.plusDays(0);
         LocalTime min = LocalTime.MIN;
         LocalDateTime start = LocalDateTime.of(startDay, min);
         return start.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
