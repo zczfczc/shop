@@ -10,6 +10,9 @@ import com.msb.mall.product.vo.SeckillVO;
 import com.msb.mall.product.vo.SkuItemSaleAttrVo;
 import com.msb.mall.product.vo.SpuItemGroupAttrVo;
 import com.msb.mall.product.vo.SpuItemVO;
+import org.apache.skywalking.apm.toolkit.trace.Tag;
+import org.apache.skywalking.apm.toolkit.trace.Tags;
+import org.apache.skywalking.apm.toolkit.trace.Trace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -135,6 +138,11 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
         return list;
     }
 
+    @Trace
+    @Tags({
+            @Tag(key="item",value = "returnedObj")
+            ,@Tag(key="itemParam",value = "arg[0]")
+    })
     @Override
     public SpuItemVO item(Long skuId) throws ExecutionException, InterruptedException {
         SpuItemVO vo = new SpuItemVO();
@@ -176,8 +184,10 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
         CompletableFuture<Void> seckillFuture = CompletableFuture.runAsync(() -> {
             // 查询商品的秒杀活动
             R r = seckillFeignService.getSeckillSessionBySkuId(skuId);
-            SeckillVO seckillVO = JSON.parseObject(r.get("data").toString(),SeckillVO.class);
-            vo.setSeckillVO(seckillVO);
+            if(r.getCode() == 0){
+                SeckillVO seckillVO = JSON.parseObject(r.get("data").toString(),SeckillVO.class);
+                vo.setSeckillVO(seckillVO);
+            }
         }, threadPoolExecutor);
 
 

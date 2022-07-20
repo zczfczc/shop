@@ -2,6 +2,7 @@ package com.msb.mall.product.web;
 
 import com.msb.mall.product.service.SkuInfoService;
 import com.msb.mall.product.vo.SpuItemVO;
+import org.apache.skywalking.apm.toolkit.trace.Trace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,7 @@ public class ItemController {
      * @param skuId
      * @return
      */
+    @Trace
     @GetMapping("/{skuId}.html")
     public String item(@PathVariable Long skuId, Model model) throws ExecutionException, InterruptedException {
         SpuItemVO itemVO = skuInfoService.item(skuId);

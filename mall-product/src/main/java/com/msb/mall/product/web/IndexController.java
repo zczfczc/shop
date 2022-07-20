@@ -3,6 +3,7 @@ package com.msb.mall.product.web;
 import com.msb.mall.product.entity.CategoryEntity;
 import com.msb.mall.product.service.CategoryService;
 import com.msb.mall.product.vo.Catalog2VO;
+import org.apache.skywalking.apm.toolkit.trace.Trace;
 import org.hibernate.validator.constraints.br.TituloEleitoral;
 import org.redisson.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ public class IndexController {
     @Autowired
     StringRedisTemplate stringRedisTemplate;
 
+    @Trace
     @GetMapping({"/","/home","/index"})
     public String index(Model model){
 
@@ -43,6 +45,7 @@ public class IndexController {
     }
 
     // index/catalog.json
+    @Trace
     @ResponseBody
     @RequestMapping("/index/catalog.json")
     public Map<String, List<Catalog2VO>> getCatalog2JSON(){

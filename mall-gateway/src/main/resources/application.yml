@@ -72,6 +72,11 @@ spring:
           uri: lb://mall-order
           predicates:
             - Host=order.msb.com
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        client-ip: localhost
+        port: 8719
 
 # localhost:8070/app/captcha.jpg -->
 # localhost:8080/app/captcha.jpg localhost:8080/renren-fast/captcha.jpg
@@ -79,4 +84,8 @@ spring:
 server:
   port: 8070
 
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

@@ -17,6 +17,16 @@ spring:
         appCode: 192a6811b5a4458f9402da3b0c3b9aa5
     application:
       name: mall-third
+    sentinel:
+      transport:
+        client-ip: localhost
+        dashboard: localhost:8080
+        port: 8719
 server:
   port: 8100
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
 

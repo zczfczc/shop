@@ -8,7 +8,7 @@ spring:
       transport:
         port: 8719
         dashboard: localhost:8080
-        clientIp: 127.0.0.1
+        client-ip: localhost
   application:
     name: mall-seckill
   redis:
@@ -27,7 +27,7 @@ spring:
     cache: false
 
 server:
-  port: 9600
+  port: 9601
 
 # RocketMQ的相关信息
 rocketmq:

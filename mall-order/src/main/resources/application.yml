@@ -12,6 +12,11 @@ spring:
     #alibaba:
      # seata:
       #  tx-service-group: mall-order-group
+    sentinel:
+      transport:
+        port: 8719
+        client-ip: localhost
+        dashboard: localhost:8080
   application:
     name: mall-order
   session:
@@ -45,4 +50,9 @@ rocketmq:
     group: order-producer
   consumer:
     group: order-consumer
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
 

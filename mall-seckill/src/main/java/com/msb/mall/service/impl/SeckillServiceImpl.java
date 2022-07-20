@@ -1,5 +1,9 @@
 package com.msb.mall.service.impl;
 
+import com.alibaba.csp.sentinel.Entry;
+import com.alibaba.csp.sentinel.SphU;
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.fastjson.JSON;
 import com.msb.common.constant.OrderConstant;
 import com.msb.common.constant.SeckillConstant;
@@ -14,8 +18,10 @@ import com.msb.mall.service.SeckillService;
 import com.msb.mall.vo.SeckillSessionEntity;
 import com.msb.mall.vo.SeckillSkuRelationEntity;
 import com.msb.mall.vo.SkuInfoVo;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
+import org.apache.skywalking.apm.toolkit.trace.Trace;
 import org.redisson.api.RSemaphore;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
@@ -34,6 +40,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class SeckillServiceImpl implements SeckillService {
 
@@ -52,6 +59,7 @@ public class SeckillServiceImpl implements SeckillService {
     @Autowired
     RocketMQTemplate rocketMQTemplate;
 
+    @Trace
     @Override
     public void uploadSeckillSku3Days() {
         // 1. 通过OpenFegin 远程调用Coupon服务中接口来获取未来三天的秒杀活动的商品
@@ -70,38 +78,54 @@ public class SeckillServiceImpl implements SeckillService {
         }
     }
 
+    public List<SeckillSkuRedisDto> blockHandler(BlockException blockException){
+        log.error("限流执行的 blockHandler 方法 ....{}",blockException.getMessage());
+        return null;
+    }
+
     /**
      * 查询出当前时间内的秒杀活动及对应的商品SKU信息
      * @return
      */
+    @SentinelResource(value = "currentSeckillSkusResources",blockHandler = "blockHandler")
     @Override
     public List<SeckillSkuRedisDto> getCurrentSeckillSkus() {
         // 1.确定当前时间是属于哪个秒杀活动的
         long time = new Date().getTime();
-        // 从Redis中查询所有的秒杀活动
-        Set<String> keys = redisTemplate.keys(SeckillConstant.SESSION_CHACE_PREFIX + "*");
-        for (String key : keys) {
-            //seckill:sessions1656468000000_1656469800000
-            String replace = key.replace(SeckillConstant.SESSION_CHACE_PREFIX, "");
-            // 1656468000000_1656469800000
-            String[] s = replace.split("_");
-            Long start = Long.parseLong(s[0]); // 活动开始的时间
-            Long end = Long.parseLong(s[1]); // 活动结束的时间
-            if(time > start && time < end){
-                // 说明的秒杀活动就是当前时间需要参与的活动
-                // 取出来的是SKU的ID  2_9
-                List<String> range = redisTemplate.opsForList().range(key, -100, 100);
-                BoundHashOperations<String, String, String> ops = redisTemplate.boundHashOps(SeckillConstant.SKU_CHACE_PREFIX);
-                List<String> list = ops.multiGet(range);
-                if(list != null && list.size() > 0){
-                    List<SeckillSkuRedisDto> collect = list.stream().map(item -> {
-                        SeckillSkuRedisDto seckillSkuRedisDto = JSON.parseObject(item, SeckillSkuRedisDto.class);
-                        return seckillSkuRedisDto;
-                    }).collect(Collectors.toList());
-                    return collect;
+
+        try (Entry entry = SphU.entry("getCurrentSeckillSkusResources")) {
+            // 被保护的业务逻辑
+            // 从Redis中查询所有的秒杀活动
+            Set<String> keys = redisTemplate.keys(SeckillConstant.SESSION_CHACE_PREFIX + "*");
+            for (String key : keys) {
+                //seckill:sessions1656468000000_1656469800000
+                String replace = key.replace(SeckillConstant.SESSION_CHACE_PREFIX, "");
+                // 1656468000000_1656469800000
+                String[] s = replace.split("_");
+                Long start = Long.parseLong(s[0]); // 活动开始的时间
+                Long end = Long.parseLong(s[1]); // 活动结束的时间
+                if(time > start && time < end){
+                    // 说明的秒杀活动就是当前时间需要参与的活动
+                    // 取出来的是SKU的ID  2_9
+                    List<String> range = redisTemplate.opsForList().range(key, -100, 100);
+                    BoundHashOperations<String, String, String> ops = redisTemplate.boundHashOps(SeckillConstant.SKU_CHACE_PREFIX);
+                    List<String> list = ops.multiGet(range);
+                    if(list != null && list.size() > 0){
+                        List<SeckillSkuRedisDto> collect = list.stream().map(item -> {
+                            SeckillSkuRedisDto seckillSkuRedisDto = JSON.parseObject(item, SeckillSkuRedisDto.class);
+                            return seckillSkuRedisDto;
+                        }).collect(Collectors.toList());
+                        return collect;
+                    }
                 }
             }
+        } catch (BlockException ex) {
+            // 资源访问阻止，被限流或被降级
+            log.error("getCurrentSeckillSkusResources被限制访问了...");
+            // 在此处进行相应的处理操作
         }
+
+
         return null;
     }
 

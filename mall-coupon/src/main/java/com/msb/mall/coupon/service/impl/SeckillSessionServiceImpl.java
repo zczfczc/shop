@@ -2,6 +2,9 @@ package com.msb.mall.coupon.service.impl;
 
 import com.msb.mall.coupon.entity.SeckillSkuRelationEntity;
 import com.msb.mall.coupon.service.SeckillSkuRelationService;
+import org.apache.skywalking.apm.toolkit.trace.Tag;
+import org.apache.skywalking.apm.toolkit.trace.Tags;
+import org.apache.skywalking.apm.toolkit.trace.Trace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -44,6 +47,11 @@ public class SeckillSessionServiceImpl extends ServiceImpl<SeckillSessionDao, Se
         return new PageUtils(page);
     }
 
+    @Trace
+    @Tags({
+            @Tag(key="getLates3DaysSession",value = "returnedObj")
+            //,@Tag(key="param",value = "arg[0]")
+    })
     @Override
     public List<SeckillSessionEntity> getLates3DaysSession() {
         // 计算未来3天的时间

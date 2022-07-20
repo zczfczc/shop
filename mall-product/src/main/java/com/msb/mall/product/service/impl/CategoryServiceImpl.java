@@ -4,6 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.msb.mall.product.service.CategoryBrandRelationService;
 import com.msb.mall.product.vo.Catalog2VO;
+import org.apache.skywalking.apm.toolkit.trace.Tag;
+import org.apache.skywalking.apm.toolkit.trace.Tags;
+import org.apache.skywalking.apm.toolkit.trace.Trace;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,6 +143,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      *     CacheAutoConfiguration--》根据指定的spring.cache.type=reids会导入 RedisCacheAutoConfiguration
      * @return
      */
+    @Trace
     @Cacheable(value = {"catagory"},key = "#root.method.name",sync = true)
     @Override
     public List<CategoryEntity> getLeve1Category() {
@@ -171,6 +175,10 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      * 查询所有分类数据，并且完成一级二级三级的关联
      * @return
      */
+    @Trace
+    @Tags({
+            @Tag(key = "getCatelog2JSON",value = "returnedObj")
+    })
     @Cacheable(value = "catagory",key = "#root.methodName")
     @Override
     public Map<String, List<Catalog2VO>> getCatelog2JSON() {

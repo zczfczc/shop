@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -28,6 +29,7 @@ public class SeckillSkuSchedule {
     /**
      *
      */
+    
     @Async
     @Scheduled(cron = "*/5 * * * * *")
     public void uploadSeckillSku3Days(){

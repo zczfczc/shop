@@ -12,6 +12,11 @@ spring:
     #alibaba:
      # seata:
       #  tx-service-group: mall-ware-group
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        client-ip: localhost
+        port: 8719
   application:
     name: mall-ware
   jackson:
@@ -24,3 +29,8 @@ mybatis-plus:
       id-type: auto # 主键自增
 server:
   port: 8050
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

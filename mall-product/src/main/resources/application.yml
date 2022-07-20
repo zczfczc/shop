@@ -14,6 +14,11 @@ spring:
       secret-key: 3GnWaRhcBW3gUDhNSVr23fSrM6A0Q4
       oss:
         endpoint: oss-cn-guangzhou.aliyuncs.com
+    sentinel:
+      transport:
+        client-ip: localhost
+        dashboard: localhost:8080
+        port: 8719
   application:
     name: mall-product
   # 统一的全局的--设置服务器响应给客户端的日期时间格式
@@ -53,5 +58,6 @@ management:
   endpoint:
     health:
       show-details: always
-
-
+feign:
+  sentinel:
+    enabled: true

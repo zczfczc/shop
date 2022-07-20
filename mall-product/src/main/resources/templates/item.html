@@ -508,12 +508,12 @@
                             <span>￥</span>
                             <span th:text="${#numbers.formatDecimal(item.info.price,3,2)}">4499.00</span>
                         </li>
-                        <li style="color: red">
-                            <span th:if="${#dates.createNow().getTime() < item.seckillVO.startTime}">
+                        <li style="color: red" th:if="${item.seckillVO != null }">
+                            <span th:if="${item.seckillVO!=null?#dates.createNow().getTime() < item.seckillVO.startTime:false }">
                                 商品将在：[[${#dates.format(new java.util.Date(item.seckillVO.startTime),'yyyy-MM-dd HH:mm:ss')}]] 开始秒杀
                             </span>
-                            <span th:if="${#dates.createNow().getTime() > item.seckillVO.startTime
-                             && #dates.createNow().getTime() < item.seckillVO.endTime }">
+                            <span th:if="${item.seckillVO!=null? (#dates.createNow().getTime() > item.seckillVO.startTime
+                             && #dates.createNow().getTime() < item.seckillVO.endTime ): false}">
                                 秒杀价: [[${#numbers.formatDecimal(item.seckillVO.seckillPrice,1,2)}]]
                             </span>
                         </li>
@@ -638,14 +638,14 @@
 
                         </div>
                     </div>
-                    <div class="box-btns-two" th:if="${#dates.createNow().getTime() < item.seckillVO.startTime
-                            || #dates.createNow().getTime() >  item.seckillVO.endTime }">
+                    <div class="box-btns-two" th:if="${item.seckillVO!=null ? (#dates.createNow().getTime() < item.seckillVO.startTime
+                            || #dates.createNow().getTime() >  item.seckillVO.endTime) :true }">
                         <a href="#" id="addCart" th:attr="skuId=${item.info.skuId}">
                             加入购物车
                         </a>
                     </div>
-                    <div class="box-btns-two" th:if="${#dates.createNow().getTime() > item.seckillVO.startTime
-                             && #dates.createNow().getTime() < item.seckillVO.endTime }">
+                    <div class="box-btns-two" th:if="${item.seckillVO != null ? (#dates.createNow().getTime() > item.seckillVO.startTime
+                             && #dates.createNow().getTime() < item.seckillVO.endTime) :false }">
                         <a href="#" id="seckillId" th:attr="skuId=${item.info.skuId},sessionId=${item.seckillVO.promotionSessionId},code=${item.seckillVO.randCode}">
                             抢购商品
                         </a>
