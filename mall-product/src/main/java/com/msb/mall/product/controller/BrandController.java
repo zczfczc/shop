@@ -72,26 +72,6 @@ public class BrandController {
         brandService.save(brand);
         return R.ok();
     }
-    /*@RequestMapping("/save")
-    //@RequiresPermissions("product:brand:save")
-    public R save(@Valid @RequestBody BrandEntity brand, BindingResult result){
-        if(result.hasErrors()){
-            // 提交的数据经过JSR303校验后有非法的字段
-            Map<String,String> map = new HashMap<>();
-            List<FieldError> fieldErrors = result.getFieldErrors();
-            for (FieldError fieldError : fieldErrors) {
-                // 获取非法数据的 field
-                String field = fieldError.getField();
-                // 获取非法的field的提示信息
-                String defaultMessage = fieldError.getDefaultMessage();
-                map.put(field,defaultMessage);
-            }
-            return R.error(400,"提交的品牌表单数据不合法").put("data",map);
-        }
-		brandService.save(brand);
-
-        return R.ok();
-    }*/
 
     /**
      * 修改

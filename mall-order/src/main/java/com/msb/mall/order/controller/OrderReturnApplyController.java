@@ -79,7 +79,7 @@ public class OrderReturnApplyController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("order:orderreturnapply:delete")
+//    @RequiresPermissions("order:orderreturnapply:delete")
     public R delete(@RequestBody Long[] ids){
 		orderReturnApplyService.removeByIds(Arrays.asList(ids));
 

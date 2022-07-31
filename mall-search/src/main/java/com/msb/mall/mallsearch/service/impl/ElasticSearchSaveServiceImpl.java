@@ -30,28 +30,25 @@ public class ElasticSearchSaveServiceImpl implements ElasticSearchSaveService {
      */
     @Override
     public Boolean productStatusUp(List<SkuESModel> skuESModels) throws IOException {
-        // 创建对应索引库 --》 创建对应的Product的映射
+        // 1.创建对应索引库 --》 创建对应的Product的映射
         // BulkRequest bulkRequest, RequestOptions options
         BulkRequest bulkRequest = new BulkRequest();
         for (SkuESModel skuESModel : skuESModels) {
-            // 绑定对应的索引库  product
+            // 2.绑定对应的索引库  product
             IndexRequest indexRequest = new IndexRequest(ESConstant.PRODUCT_INDEX);
-            // 设置id
+            // 3.设置id
             indexRequest.id(skuESModel.getSkuId().toString());
-            // 设置文档
+            // 4.设置文档
             ObjectMapper mapper = new ObjectMapper();
             String json = mapper.writeValueAsString(skuESModel);
             indexRequest.source(json, XContentType.JSON);
-            // 转换后的数据封装到Bulk中
+            // 5.转换后的数据封装到Bulk中
             bulkRequest.add(indexRequest);
         }
-        // 批量向ElasticSearch中保存数据
+        // 6.批量向ElasticSearch中保存数据
         BulkResponse bulk = client.bulk(bulkRequest, MallElasticSearchConfiguration.COMMON_OPTIONS);
-        // 获取批量操作是否有错误
+        // 7.获取批量操作是否有错误
         boolean b = bulk.hasFailures();
-        /*for (BulkItemResponse item : bulk.getItems()) {
-            item.get
-        }*/
         return !b;
     }
 }

@@ -326,7 +326,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
             }
             Long[] spuIdsArray = new Long[spuIds.size()];
             spuIdsArray = spuIds.toArray(spuIdsArray);
-            System.out.println("---->" + spuIdsArray.length);
             // 远程调用商品服务获取到对应的SPU信息
             List<OrderItemSpuInfoVO> spuInfos = productService.getOrderItemSpuInfoBySpuId(spuIdsArray);
             Map<Long, OrderItemSpuInfoVO> map = spuInfos.stream().collect(Collectors.toMap(OrderItemSpuInfoVO::getId, item -> item));

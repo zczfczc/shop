@@ -67,7 +67,6 @@ public class OSSController {
 
         } catch (Exception e) {
             // Assert.fail(e.getMessage());
-            System.out.println(e.getMessage());
         } finally {
             ossClient.shutdown();
         }
