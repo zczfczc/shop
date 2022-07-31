@@ -146,7 +146,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
      * @return
      * @throws NoStockExecption
      */
-    //@GlobalTransactional
+//    @GlobalTransactional
     @Transactional()
     @Override
     public OrderResponseVO submitOrder(OrderSubmitVO vo) throws NoStockExecption {

@@ -83,25 +83,5 @@ public class SeckillSessionServiceImpl extends ServiceImpl<SeckillSessionDao, Se
         return end.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
-    public static void main(String[] args){
-        //Date date = new Date(); // 获取的当前日期和时间 2022-06-23 16:10:10
-        LocalDate now = LocalDate.now();
-        // 获取对应的日期
-        System.out.println("now = " + now);
-        LocalDate startDay = now.plusDays(1);
-        LocalDate endDay = now.plusDays(2);
-        System.out.println("startDay = " + startDay);
-        System.out.println("endDay = " + endDay);
-        // 获取对应的时间
-        LocalTime max = LocalTime.MAX;
-        LocalTime min = LocalTime.MIN;
-        System.out.println("max = " + max);
-        System.out.println("min = " + min);
-        // 日期和时间的组合
-        LocalDateTime start = LocalDateTime.of(startDay, min);
-        LocalDateTime end = LocalDateTime.of(endDay, max);
-        System.out.println("start = " + start.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        System.out.println("end = " + end.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-    }
 
 }

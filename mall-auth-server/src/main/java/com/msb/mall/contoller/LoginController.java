@@ -42,6 +42,11 @@ public class LoginController {
     @Autowired
     private MemberFeginService memberFeginService;
 
+    /**
+     * 发送验证码
+     * @param phone
+     * @return
+     */
     @ResponseBody
     @GetMapping("/sms/sendCode")
     public R sendSmsCode(@RequestParam("phone") String phone){
@@ -59,14 +64,20 @@ public class LoginController {
         }
         // 生成随机的验证码 --》 把生成的验证码存储到Redis服务中 sms:code:13316995437  12345
         String code = UUID.randomUUID().toString().substring(0, 5);
-        thirdPartFeginService.sendSmsCode(phone,code);
+        thirdPartFeginService.sendSmsCode(phone,code); // 调用第三方服务发送验证码短信
         code = code + "_"+System.currentTimeMillis();
-        System.out.println("code = " + code);
         redisTemplate.opsForValue().set(SMSConstant.SMS_CODE_PERFIX+phone,code,10, TimeUnit.MINUTES);
 
         return R.ok();
     }
 
+    /**
+     * 注册用户
+     * @param vo
+     * @param result
+     * @param model
+     * @return
+     */
     @PostMapping("/sms/register")
     public String register(@Valid UserRegisterVo vo, BindingResult result, Model model){
         Map<String,String> map = new HashMap<>();

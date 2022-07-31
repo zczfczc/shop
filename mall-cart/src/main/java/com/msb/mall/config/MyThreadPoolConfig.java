@@ -8,6 +8,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 配置线程池
+ */
 @Configuration
 public class MyThreadPoolConfig {
 
