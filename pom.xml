@@ -7,7 +7,7 @@
     <artifactId>mall-mall</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>mall-mall</name>
-    <description>马士兵三高项目-聚合工程</description>
+    <description>电商项目</description>
     <packaging>pom</packaging>
 
     <modules>
